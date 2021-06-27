@@ -1,0 +1,29 @@
+<h1>Добавить новый курс</h1>
+
+<form action="/add" method="POST">
+    <label>
+        Имя курса:
+        <input type="text" name="title" required />
+    </label>
+
+    <br />
+    <br />
+
+    <label>
+        Цена курса:
+        <input type="number" name="price" required min="1" />
+    </label>
+
+    <br />
+    <br />
+
+    <label>
+        URL картинки:
+        <input type="text" name="image" required />
+    </label>
+
+    <br />
+    <br />
+
+    <button>Добавить курс</button>
+</form>

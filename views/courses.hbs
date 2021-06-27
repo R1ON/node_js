@@ -1,0 +1,16 @@
+<h1>Курсы</h1>
+{{#if courses.length}}
+    {{#each courses}}
+        <div class="course">
+            <img src="{{image}}" alt="{{title}}" />
+            <h1>Курс: {{title}}</h1>
+            <h2>
+                Цена: {{price}}
+                <a href="/courses/{{id}}">Посмотреть курс</a>
+                <a href="/courses/{{id}}/edit?allow=true">Изменить курс</a>
+            </h2>
+        </div>
+    {{/each}}
+{{else}}
+    <p>Курсов пока нет</p>
+{{/if}}

@@ -1,0 +1,25 @@
+a {
+    color: tomato;
+}
+
+.active {
+    color: #8D3829;
+}
+
+.course {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: 1fr 1fr;
+    background: lightgray;
+    border-radius: 5px;
+}
+
+.course img {
+    grid-row: 1 / 3;
+    align-self: center;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    background: gray;
+    border-radius: 50%;
+}

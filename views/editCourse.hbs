@@ -1,0 +1,31 @@
+<h1>Изменить курс {{course.title}}</h1>
+
+<form action="/courses/edit" method="POST">
+    <label>
+        Имя курса:
+        <input type="text" value="{{course.title}}" name="title" required />
+    </label>
+
+    <br />
+    <br />
+
+    <label>
+        Цена курса:
+        <input type="number" value="{{course.price}}" name="price" required min="1" />
+    </label>
+
+    <br />
+    <br />
+
+    <label>
+        URL картинки:
+        <input type="text" value="{{course.image}}" name="image" required />
+    </label>
+
+    <input type="hidden" name="id" value="{{course.id}}" />
+
+    <br />
+    <br />
+
+    <button>Изменить курс</button>
+</form>
