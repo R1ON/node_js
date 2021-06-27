@@ -37,6 +37,33 @@ class Card {
     });
   }
 
+  static async remove(id) {
+    const card = await Card.fetch();
+
+    const index = card.courses.findIndex((cardCourse) => cardCourse.id === id);
+    const course = card.courses[index];
+
+    if (course.count === 1) {
+      card.courses = card.courses.filter((cardCourse) => cardCourse.id !== id);
+    }
+    else {
+      card.courses[index].count -= 1;
+    }
+
+    card.price -= course.price;
+
+    return new Promise((resolve, reject) => {
+      fs.writeFile(pathToCardJSON, JSON.stringify(card), (error) => {
+        if (error) {
+          reject(error);
+        }
+        else {
+          resolve(card);
+        }
+      });
+    });
+  }
+
   static async fetch() {
     return new Promise((resolve, reject) => {
       fs.readFile(pathToCardJSON, 'utf-8', (error, data) => {
