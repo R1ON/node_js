@@ -16,4 +16,10 @@
     {{ else }}
         <a href="/add">Добавить курс</a>
     {{/if}}
+
+    {{#if isCard }}
+        <a class="active" href="/card">Корзина</a>
+    {{ else }}
+        <a href="/card">Корзина</a>
+    {{/if}}
 </nav>

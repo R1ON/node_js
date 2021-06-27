@@ -8,6 +8,11 @@
                 Цена: {{price}}
                 <a href="/courses/{{id}}">Посмотреть курс</a>
                 <a href="/courses/{{id}}/edit?allow=true">Изменить курс</a>
+
+                <form action="/card/add" method="post">
+                    <input type="hidden" name="id" value="{{id}}" />
+                    <button type="submit">Купить курс</button>
+                </form>
             </h2>
         </div>
     {{/each}}
