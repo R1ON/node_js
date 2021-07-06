@@ -13,10 +13,20 @@ router.get('/', (request, response) => {
 router.post('/', async (request, response) => {
   const { title, price, image } = request.body;
 
-  response.redirect('/courses');
+  const course = new Course({
+    title,
+    price,
+    image,
+    userId: request.user,
+  });
 
-  const course = new Course(title, price, image);
-  await course.save();
+  try {
+    await course.save();
+    response.redirect('/courses');
+  }
+  catch (error) {
+    console.error(error);
+  }
 });
 
 module.exports = router;

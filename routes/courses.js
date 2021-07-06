@@ -4,7 +4,10 @@ const Course = require('../models/course');
 const router = Router();
 
 router.get('/', async (request, response) => {
-  const courses = await Course.getAll();
+  const courses = await Course
+    .find()
+    .populate('userId', 'email name')
+    .lean();
 
   response.render('courses', {
     title: 'Курсы',
@@ -18,7 +21,7 @@ router.get('/:id/edit', async (request, response) => {
     return response.redirect('/');
   }
 
-  const course = await Course.getById(request.params.id);
+  const course = await Course.findById(request.params.id).lean();
 
   response.render('editCourse', {
     title: `Изменить курс ${course.title}`,
@@ -27,7 +30,7 @@ router.get('/:id/edit', async (request, response) => {
 });
 
 router.get('/:id', async (request, response) => {
-  const course = await Course.getById(request.params.id);
+  const course = await Course.findById(request.params.id).lean();
 
   response.render('course', {
     title: `Курс ${course.title}`,
@@ -37,8 +40,20 @@ router.get('/:id', async (request, response) => {
 });
 
 router.post('/edit', async (request, response) => {
+  const { id, ...body } = request.body;
+
+  await Course.findByIdAndUpdate(id, body);
   response.redirect('/courses');
-  await Course.update(request.body);
+});
+
+router.post('/remove', async (request, response) => {
+  try {
+    await Course.deleteOne({ _id: request.body.id });
+    response.redirect('/courses');
+  }
+  catch (error) {
+    console.error(error);
+  }
 });
 
 module.exports = router;

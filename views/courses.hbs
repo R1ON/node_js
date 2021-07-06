@@ -6,11 +6,11 @@
             <h1>Курс: {{title}}</h1>
             <h2>
                 Цена: {{price}}
-                <a href="/courses/{{id}}">Посмотреть курс</a>
-                <a href="/courses/{{id}}/edit?allow=true">Изменить курс</a>
+                <a href="/courses/{{_id}}">Посмотреть курс</a>
+                <a href="/courses/{{_id}}/edit?allow=true">Изменить курс</a>
 
                 <form action="/card/add" method="post">
-                    <input type="hidden" name="id" value="{{id}}" />
+                    <input type="hidden" name="id" value="{{_id}}" />
                     <button type="submit">Купить курс</button>
                 </form>
             </h2>

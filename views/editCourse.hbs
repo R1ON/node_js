@@ -22,10 +22,15 @@
         <input type="text" value="{{course.image}}" name="image" required />
     </label>
 
-    <input type="hidden" name="id" value="{{course.id}}" />
+    <input type="hidden" name="id" value="{{course._id}}" />
 
     <br />
     <br />
 
-    <button>Изменить курс</button>
+    <button type="submit">Изменить курс</button>
+</form>
+
+<form action="/courses/remove" method="POST">
+    <input type="hidden" name="id" value="{{course._id}}" />
+    <button type="submit">Удалить курс </button>
 </form>
