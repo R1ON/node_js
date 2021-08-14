@@ -47,4 +47,30 @@ user.methods.addToCart = async function(course) {
   return this.save();
 }
 
+user.methods.removeFromCart = async function(id) {
+  let items = [...this.cart.items];
+
+  const index = items.findIndex((item) => (
+    item.courseId.toString() === id
+  ));
+
+  if (items[index].count === 1) {
+    items = items.filter((item) => (
+      item.courseId.toString() !== id
+    ));
+  }
+  else {
+    items[index].count -= 1;
+  }
+
+  this.cart = { items };
+
+  return this.save();
+}
+
+user.methods.clearCart = async function() {
+  this.cart = { items: [] };
+  return this.save();
+}
+
 module.exports = model('User', user);

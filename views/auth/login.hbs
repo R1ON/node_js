@@ -1,0 +1,61 @@
+<div class="auth">
+    <div class="login">
+        <h1>Авторизация</h1>
+
+        <br />
+
+        <form action="/auth/login" method="POST">
+            <label>
+                Email:
+                <input type="text" name="email" required />
+            </label>
+
+            <br />
+            <br />
+
+            <label>
+                Пароль:
+                <input type="password" name="password" required />
+            </label>
+
+            <br />
+            <br />
+
+            <button type="submit">Войти</button>
+        </form>
+
+    </div>
+    <div class="registration">
+        <h1>Регистрация</h1>
+
+        <br />
+
+        <form action="/auth/register" method="POST">
+            <label>
+                Email:
+                <input type="email" name="email" required />
+            </label>
+
+            <br />
+            <br />
+
+            <label>
+                Пароль:
+                <input type="password" name="password" required />
+            </label>
+
+            <br />
+            <br />
+
+            <label>
+                Повторить пароль:
+                <input type="password" name="confirm" required />
+            </label>
+
+            <br />
+            <br />
+
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+    </div>
+</div>

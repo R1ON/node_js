@@ -1,0 +1,29 @@
+<h1>Мои заказы</h1>
+
+{{#if orders.length}}
+
+    {{#each orders}}
+        <div>
+            <p>Заказ {{_id}}</p>
+            <p class="date">Дата {{date}}</p>
+
+            <p>
+                Пользователь <b>{{user.userId.name}}</b> ({{user.userId.email}})
+            </p>
+
+            <ol>
+                {{#each courses}}
+                    <li>
+                        {{course.title}} * <b>{{count}}</b>
+                    </li>
+                {{/each}}
+            </ol>
+            
+            <b>Цена: {{price}}</b>
+            <hr />
+        </div>
+    {{/each}}
+
+{{else}}
+    <p>Заказов нет</p>
+{{/if}}

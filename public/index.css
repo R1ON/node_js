@@ -23,3 +23,24 @@ a {
     background: gray;
     border-radius: 50%;
 }
+
+.auth {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #CDC4A5;
+}
+
+.registration {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: #C6B0B0;
+}

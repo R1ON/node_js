@@ -1,13 +1,14 @@
 const { Router } = require('express');
+
 const Course = require('../models/course');
+const auth = require('../middleware/auth');
 
 const router = Router();
 
 router.get('/', async (request, response) => {
   const courses = await Course
     .find()
-    .populate('userId', 'email name')
-    .lean();
+    .populate('userId', 'email name').lean();
 
   response.render('courses', {
     title: 'Курсы',
@@ -16,7 +17,7 @@ router.get('/', async (request, response) => {
   });
 });
 
-router.get('/:id/edit', async (request, response) => {
+router.get('/:id/edit', auth, async (request, response) => {
   if (!request.query.allow) {
     return response.redirect('/');
   }
@@ -39,14 +40,14 @@ router.get('/:id', async (request, response) => {
   });
 });
 
-router.post('/edit', async (request, response) => {
+router.post('/edit', auth, async (request, response) => {
   const { id, ...body } = request.body;
 
   await Course.findByIdAndUpdate(id, body);
   response.redirect('/courses');
 });
 
-router.post('/remove', async (request, response) => {
+router.post('/remove', auth, async (request, response) => {
   try {
     await Course.deleteOne({ _id: request.body.id });
     response.redirect('/courses');
