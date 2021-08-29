@@ -13,6 +13,7 @@
 
                     <form action="/card/add" method="post">
                         <input type="hidden" name="id" value="{{_id}}" />
+                        <input type="hidden" name="_csrf" value="{{@root.csrf}}" />
                         <button type="submit">Купить курс</button>
                     </form>
                 {{/if}}

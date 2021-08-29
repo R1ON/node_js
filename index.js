@@ -1,10 +1,24 @@
 const path = require('path');
 const express = require('express');
+const csrf = require('csurf');
+const flash = require('connect-flash');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongodb-session')(session);
 
+// ---
+
 const varMiddleware = require('./middleware/variables');
+const userMiddleware = require('./middleware/user');
+
+const homeRoute = require('./routes/home');
+const addRoute = require('./routes/add');
+const coursesRoute = require('./routes/courses');
+const cardRoute = require('./routes/card');
+const ordersRoute = require('./routes/orders');
+const authRoute = require('./routes/auth');
+
+// ---
 
 const MONGODB_URI = 'mongodb+srv://rion:8QF9WJbiMNsvHTjc@cluster0.bdm1j.mongodb.net/shop';
 
@@ -18,14 +32,7 @@ const store = new MongoStore({
   uri: MONGODB_URI,
 });
 
-const homeRoute = require('./routes/home');
-const addRoute = require('./routes/add');
-const coursesRoute = require('./routes/courses');
-const cardRoute = require('./routes/card');
-const ordersRoute = require('./routes/orders');
-const authRoute = require('./routes/auth');
 
-const User = require('./models/user');
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
@@ -41,7 +48,10 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
 }));
+app.use(csrf());
+app.use(flash());
 app.use(varMiddleware);
+app.use(userMiddleware);
 
 
 app.use('/', homeRoute);

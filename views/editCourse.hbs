@@ -23,6 +23,7 @@
     </label>
 
     <input type="hidden" name="id" value="{{course._id}}" />
+    <input type="hidden" name="_csrf" value="{{csrf}}" />
 
     <br />
     <br />
@@ -32,5 +33,6 @@
 
 <form action="/courses/remove" method="POST">
     <input type="hidden" name="id" value="{{course._id}}" />
+    <input type="hidden" name="_csrf" value="{{csrf}}" />
     <button type="submit">Удалить курс </button>
 </form>

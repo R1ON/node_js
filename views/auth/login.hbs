@@ -1,3 +1,7 @@
+{{#if error}}
+    <p class="auth-error">{{error}}</p>
+{{/if}}
+
 <div class="auth">
     <div class="login">
         <h1>Авторизация</h1>
@@ -21,6 +25,8 @@
             <br />
             <br />
 
+            <input type="hidden" name="_csrf" value="{{csrf}}" />
+
             <button type="submit">Войти</button>
         </form>
 
@@ -34,6 +40,14 @@
             <label>
                 Email:
                 <input type="email" name="email" required />
+            </label>
+
+            <br />
+            <br />
+
+            <label>
+                Имя:
+                <input type="text" name="name" required />
             </label>
 
             <br />
@@ -54,6 +68,8 @@
 
             <br />
             <br />
+
+            <input type="hidden" name="_csrf" value="{{csrf}}" />
 
             <button type="submit">Зарегистрироваться</button>
         </form>

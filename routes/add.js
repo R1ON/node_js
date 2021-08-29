@@ -13,6 +13,8 @@ router.get('/', auth, (request, response) => {
 
 router.post('/', auth, async (request, response) => {
   const { title, price, image } = request.body;
+  
+  console.log('request.user', request.user);
 
   const course = new Course({
     title,
@@ -20,6 +22,8 @@ router.post('/', auth, async (request, response) => {
     image,
     userId: request.user,
   });
+  
+  console.log('course', course);
 
   try {
     await course.save();

@@ -22,6 +22,7 @@ router.post('/add', auth, async (request, response) => {
   const course = await Course.findById(request.body.id);
 
   await request.user.addToCart(course);
+  response.redirect('/card');
 });
 
 router.delete('/remove/:id', auth, async (request, response) => {

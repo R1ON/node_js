@@ -4,9 +4,13 @@ if (card) {
   card.addEventListener('click', (event) => {
     if (event.target.id === 'removeButton') {
       const id = event.target.dataset.id;
+      const csurf = event.target.dataset.csurf;
 
       fetch(`/card/remove/${id}`, {
         method: 'delete',
+        headers: {
+          'X-XSRF-TOKEN': csurf,
+        },
       })
         .then((response) => response.json())
         .then((data) => {

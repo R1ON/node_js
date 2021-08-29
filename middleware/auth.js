@@ -3,5 +3,5 @@ module.exports = function (request, response, next) {
     return response.redirect('/auth/login');
   }
 
-  next();
+  return next();
 }
