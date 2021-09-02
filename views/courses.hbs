@@ -9,7 +9,9 @@
                 <a href="/courses/{{_id}}">Посмотреть курс</a>
 
                 {{#if @root.isAuth}}
-                    <a href="/courses/{{_id}}/edit?allow=true">Изменить курс</a>
+                    {{#ifEquals userId._id @root.userId}}
+                        <a href="/courses/{{_id}}/edit?allow=true">Изменить курс</a>
+                    {{/ifEquals}}
 
                     <form action="/card/add" method="post">
                         <input type="hidden" name="id" value="{{_id}}" />

@@ -1,0 +1,22 @@
+{{#if error}}
+    <p class="auth-error">{{error}}</p>
+{{/if}}
+
+
+<h1>Забыли пароль?</h1>
+
+<br />
+
+<form action="/auth/reset" method="POST">
+    <label>
+        Email:
+        <input type="text" name="email" required />
+    </label>
+
+    <br />
+    <br />
+
+    <input type="hidden" name="_csrf" value="{{csrf}}" />
+
+    <button type="submit">Сбросить</button>
+</form>

@@ -8,6 +8,8 @@ const MongoStore = require('connect-mongodb-session')(session);
 
 // ---
 
+const keys = require('./keys');
+
 const varMiddleware = require('./middleware/variables');
 const userMiddleware = require('./middleware/user');
 
@@ -20,19 +22,16 @@ const authRoute = require('./routes/auth');
 
 // ---
 
-const MONGODB_URI = 'mongodb+srv://rion:8QF9WJbiMNsvHTjc@cluster0.bdm1j.mongodb.net/shop';
-
 const app = express();
 const hbs = require('express-handlebars').create({
   defaultLayout: 'main',
   extname: 'hbs',
+  helpers: require('./utils/hbs-helpers'),
 });
 const store = new MongoStore({
   collection: 'sessions',
-  uri: MONGODB_URI,
+  uri: keys.MONGODB_URI,
 });
-
-
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
@@ -44,7 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   store,
-  secret: 'some string',
+  secret: keys.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
 }));
@@ -65,13 +64,13 @@ start();
 
 async function start() {
   try {
-    await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(keys.MONGODB_URI, {
       useUnifiedTopology: true,
       useFindAndModify: false,
       useNewUrlParser: true,
     });
 
-    app.listen(3000, () => {
+    app.listen(keys.PORT, () => {
       console.log('Started...');
     });
   }
