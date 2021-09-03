@@ -3,9 +3,11 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const sendgrid = require('nodemailer-sendgrid-transport');
+const { validationResult } = require('express-validator');
 
 const keys = require('../keys');
 const User = require('../models/user');
+const { registerValidators, loginValidators } = require('../utils/validators');
 
 const regEmail = require('../emails/registation');
 const resetEmail = require('../emails/reset');
@@ -23,36 +25,27 @@ router.get('/login', async (request, response) => {
   });
 });
 
-router.post('/login', async (request, response) => {
+router.post('/login', loginValidators, async (request, response) => {
+  const errors = validationResult(request);
+
+  if (!errors.isEmpty()) {
+    request.flash('error', errors.array()[0].msg);
+    return response.status(422).redirect('/auth/login');
+  }
+
   try {
-    const { email, password } = request.body;
+    const { email } = request.body;
 
-    const candidate = await User.findOne({ email });
+    request.session.user = await User.findOne({ email });
+    request.session.isAuthenticated = true;
 
-    if (candidate) {
-      const areSame = await bcrypt.compare(password, candidate.password);
+    request.session.save((error) => {
+        if (error) {
+          throw error;
+        }
 
-      if (areSame) {
-        request.session.user = candidate;
-        request.session.isAuthenticated = true;
-
-        request.session.save((error) => {
-          if (error) {
-            throw error;
-          }
-
-          response.redirect('/');
-        });
-      }
-      else {
-        request.flash('error', 'Неверный пароль');
-        response.redirect('/auth/login');
-      }
-    }
-    else {
-      request.flash('error', 'Пользователь не найден');
-      response.redirect('/auth/login');
-    }
+        response.redirect('/');
+      });
   }
   catch (error) {
     console.error(error);
@@ -65,31 +58,30 @@ router.get('/logout', async (request, response) => {
   });
 });
 
-router.post('/register', async (request, response) => {
+router.post('/register', registerValidators, async (request, response) => {
+  const errors = validationResult(request);
+
+  if (!errors.isEmpty()) {
+    request.flash('error', errors.array()[0].msg);
+    return response.status(422).redirect('/auth/login');
+  }
+
   try {
-    const { email, password, name, repeat } = request.body;
+    const { email, password, name } = request.body;
 
-    const candidate = await User.findOne({ email });
+    const hashPassword = await bcrypt.hash(password, 10);
 
-    if (candidate) {
-      request.flash('error', 'Email уже занят');
-      response.redirect('/auth/login');
-    }
-    else {
-      const hashPassword = await bcrypt.hash(password, 10);
+    const user = new User({
+      email,
+      name,
+      password: hashPassword,
+      cart: { items: [] },
+    });
 
-      const user = new User({
-        email,
-        name,
-        password: hashPassword,
-        cart: { items: [] },
-      });
+    await user.save();
 
-      await user.save();
-
-      response.redirect('/auth/login');
-      await transporter.sendMail(regEmail(email));
-    }
+    response.redirect('/auth/login');
+    await transporter.sendMail(regEmail(email));
   }
   catch(error) {
     console.error(error);

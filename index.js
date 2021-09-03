@@ -12,6 +12,8 @@ const keys = require('./keys');
 
 const varMiddleware = require('./middleware/variables');
 const userMiddleware = require('./middleware/user');
+const fileMiddleware = require('./middleware/file');
+const errorMiddleware = require('./middleware/error');
 
 const homeRoute = require('./routes/home');
 const addRoute = require('./routes/add');
@@ -19,6 +21,7 @@ const coursesRoute = require('./routes/courses');
 const cardRoute = require('./routes/card');
 const ordersRoute = require('./routes/orders');
 const authRoute = require('./routes/auth');
+const profileRoute = require('./routes/profile');
 
 // ---
 
@@ -38,6 +41,7 @@ app.set('view engine', 'hbs');
 app.set('views', 'views');
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Указывает, что объект req.body будет содержать значения любого типа, а не только строки
 app.use(express.urlencoded({ extended: true }));
@@ -47,6 +51,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
 }));
+app.use(fileMiddleware.single('avatar'));
 app.use(csrf());
 app.use(flash());
 app.use(varMiddleware);
@@ -59,6 +64,8 @@ app.use('/courses', coursesRoute);
 app.use('/card', cardRoute);
 app.use('/orders', ordersRoute);
 app.use('/auth', authRoute);
+app.use('/profile', profileRoute);
+app.use(errorMiddleware);
 
 start();
 

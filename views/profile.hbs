@@ -1,0 +1,41 @@
+<h1>Профиль</h1>
+
+<div class="auth">
+    <div class="login">
+        {{#if user.avatarUrl}}
+            <img
+                    src="{{user.avatarUrl}}"
+                    width="300"
+                    alt="{{user.name}}"
+            />
+        {{else}}
+            <p>Аватара нет</p>
+        {{/if}}
+
+    </div>
+    <div class="registration">
+        <form action="/profile" method="POST" enctype="multipart/form-data">
+            <p>Email: <b>{{user.email}}</b></p>
+
+            <label>
+                Имя:
+                <input type="text" name="name" value="{{user.name}}" required />
+            </label>
+
+            <br />
+            <br />
+
+            <label>
+                Аватар:
+                <input type="file" name="avatar" required />
+            </label>
+
+            <br />
+            <br />
+
+            <input type="hidden" name="_csrf" value="{{csrf}}" />
+
+            <button type="submit">Изменить</button>
+        </form>
+    </div>
+</div>

@@ -31,6 +31,12 @@
             <a href="/orders">Заказы</a>
         {{/if}}
 
+        {{#if isProfile }}
+            <a class="active" href="/profile">Профиль</a>
+        {{ else }}
+            <a href="/profile">Профиль</a>
+        {{/if}}
+
         <a href="/auth/logout">Выйти</a>
     {{else}}
 
